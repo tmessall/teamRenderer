@@ -9,6 +9,9 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+
+let empArr = [];
+
 function askNewEmployee() {
     inquirer.prompt([
         {
@@ -31,22 +34,50 @@ function askNewEmployee() {
             type: "input",
             message: "What's this employee's email?",
             name: "email"
-        },
-        {
-            type: "confirm",
-            message: "Are there any more employees?",
-            name: "more"
         }
     ]).then(response2 => {
-        console.log(response2.role);
-        console.log(response2.name);
-        console.log(response2.id);
-        console.log(response2.email);
-        console.log(response2.more);
-        if (response2.more) {
-            askNewEmployee();
+        if (response2.role === "Intern") {
+            inquirer.prompt([
+                {
+                    type: "input",
+                    message: "What's this intern's school?",
+                    name: "school"
+                },
+                {
+                    type: "confirm",
+                    message: "Are there any more employees?",
+                    name: "more"
+                }
+            ]).then(response3 => {
+                const newEmployee = new Intern(response2.name, response2.id, response2.email, response3.school);
+                empArr.push(newEmployee);
+                if (response3.more) {
+                    askNewEmployee();
+                } else {
+                    console.log("No more employees");
+                }
+            })
         } else {
-            console.log("done");
+            inquirer.prompt([
+                {
+                    type: "input",
+                    message: "What's this engineer's github?",
+                    name: "school"
+                },
+                {
+                    type: "confirm",
+                    message: "Are there any more employees?",
+                    name: "more"
+                }
+            ]).then(response3 => {
+                const newEmployee = new Engineer(response2.name, response2.id, response2.email, response3.school);
+                empArr.push(newEmployee);
+                if (response3.more) {
+                    askNewEmployee();
+                } else {
+                    console.log("No more employees");
+                }
+            })
         }
     });
 }
@@ -68,17 +99,23 @@ inquirer.prompt([
         type: "input",
         message: "What's the team manager's email?",
         name: "email"
+    },
+    {
+        type: "input",
+        message: "What's the team manager's office number?",
+        name: "officeNum"
     }
 ]).then(response1 => {
     try {
-        console.log(response1.name);
-        console.log(response1.id);
-        console.log(response1.email);
+        const newMgr = new Manager(response1.name, response1.id, response1.email, response1.officeNum);
+        empArr = [newMgr];
         askNewEmployee();
     } catch (err) {
-        console.log("There's been an error");
+        console.log(err);
     }
 });
+
+console.log(empArr);
 
 
 
