@@ -55,6 +55,14 @@ function askNewEmployee() {
                     askNewEmployee();
                 } else {
                     console.log("No more employees");
+                    render(empArr);
+                    fs.writeFile("index.html", render(empArr), err => {
+                        if (err) {
+                            console.log("There was an error writing the file.");
+                        } else {
+                            console.log("File written as index.html.");
+                        }
+                    });
                 }
             })
         } else {
@@ -76,6 +84,13 @@ function askNewEmployee() {
                     askNewEmployee();
                 } else {
                     console.log("No more employees");
+                    fs.writeFile("index.html", render(empArr), err => {
+                        if (err) {
+                            console.log("There was an error writing the file.");
+                        } else {
+                            console.log("File written as index.html.");
+                        }
+                    });
                 }
             })
         }
@@ -111,11 +126,10 @@ inquirer.prompt([
         empArr = [newMgr];
         askNewEmployee();
     } catch (err) {
-        console.log(err);
+        console.log("There was an error.");
     }
 });
 
-console.log(empArr);
 
 
 
