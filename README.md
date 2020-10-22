@@ -2,7 +2,8 @@
 
 ## Description
 Using Node.js's built in package of fs, as well as inquirer, I built classes and a command line application that uses user input to create a team and cards for the team and writes the team to an html file. This was all done as test-driven development.
-![Webpage]()
+![Webpage](./assets/images/site.png)
+![Terminal](./assets/images/terminal.png)
 
 ## Table of Contents
 * [Installation](#installation)
