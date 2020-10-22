@@ -9,6 +9,48 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+function askNewEmployee() {
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "What type of employee is this team member?",
+            choices: ["Intern", "Engineer"],
+            name: "role"
+        },
+        {
+            type: "input",
+            message: "What's this employee's name?",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What's this employee's id?",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "What's this employee's email?",
+            name: "email"
+        },
+        {
+            type: "confirm",
+            message: "Are there any more employees?",
+            name: "more"
+        }
+    ]).then(response2 => {
+        console.log(response2.role);
+        console.log(response2.name);
+        console.log(response2.id);
+        console.log(response2.email);
+        console.log(response2.more);
+        if (response2.more) {
+            askNewEmployee();
+        } else {
+            console.log("done");
+        }
+    });
+}
+
 
 var newEmps = true;
 inquirer.prompt([
@@ -16,20 +58,23 @@ inquirer.prompt([
         type: "input",
         message: "What's the team manager's name?",
         name: "name"
+    },
+    {
+        type: "input",
+        message: "What's the team manager's id?",
+        name: "id"
+    },
+    {
+        type: "input",
+        message: "What's the team manager's email?",
+        name: "email"
     }
 ]).then(response1 => {
     try {
         console.log(response1.name);
-        inquirer.prompt([
-            {
-                type: "list",
-                message: "What type of employee is this team member?",
-                choices: ["Intern", "Engineer"],
-                name: "role"
-            }
-        ]).then(response2 => {
-            console.log(response2.role);
-        })
+        console.log(response1.id);
+        console.log(response1.email);
+        askNewEmployee();
     } catch (err) {
         console.log("There's been an error");
     }
